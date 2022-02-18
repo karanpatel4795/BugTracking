@@ -16,6 +16,9 @@ let UserSchema = new mongoose.Schema({
     role : {
         type:mongoose.Schema.Types.ObjectId,
         ref:"role"
+    },
+    isAcive:{
+        type:Number
     }
 })
 

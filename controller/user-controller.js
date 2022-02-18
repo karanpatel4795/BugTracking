@@ -1,5 +1,4 @@
 const UserModel = require("../Model/user-model")
-const { saveuser } = require("./session-contoller")
 
 //add user
 module.exports.addUser = function(req,res){
@@ -7,12 +6,14 @@ module.exports.addUser = function(req,res){
     let email = req.body.email
     let password = req.body.password
     let role = req.body.role
+    let isActive = 1 
 
     let user = new UserModel({
         firstName: firstName,
         email: email,
         password: password,
-        role: role
+        role: role,
+        isActive : isActive
     })
 
     user.save(function(err,data){
@@ -54,7 +55,9 @@ module.exports.updateUser = function(req,res){
     let userId = req.body.userId
     let firstName = req.body.firstName
     let password = req.body.password
-    UserModel.updateOne({_id:userId},{firstName:firstName},{password:password},function(err,data){
+    let isActive = req.body.isActive
+
+    UserModel.updateOne({_id:userId},{firstName:firstName},{password:password},{isActive:isActive},function(err,data){
         if(err){
             res.json({msg:"Somethiing Wrong...",status:-1,data:req.body})
         }else{

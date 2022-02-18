@@ -2,10 +2,11 @@ const express = require("express")
 const mongoose = require("mongoose")
 
 const sessionController = require("./controller/session-contoller")
+
 const roleController = require("./controller/role-controller")
 const userController = require("./controller/user-controller")
-const { urlencoded } = require("express")
-const UserModel = require("./Model/user-model")
+const statusController = require("./controller/status-controller")
+const priorityController = require("./controller/priority-controller")
 
 const app = express()
 
@@ -44,7 +45,7 @@ app.post("/saveuser",sessionController.saveuser)
 //role
 app.post("/roles",roleController.addRole)
 app.get("/roles",roleController.getAllRoles)
-app.delete("/roles",roleController.deleteRoles)
+app.delete("/roles/:roleId",roleController.deleteRoles)
 app.put("/roles",roleController.updateRole)
 
 //user
@@ -52,6 +53,18 @@ app.post("/users",userController.addUser)
 app.get("/users",userController.getAllUser)
 app.delete("/users/:userId",userController.deleteUser)
 app.put("/users",userController.updateUser)
+
+//status
+app.post("/status",statusController.addStatus)
+app.get("/status",statusController.getAllStatus)
+app.delete("/status/:statusId",statusController.deleteStatus)
+app.put("/status",statusController.updateStatus)
+
+//priority
+app.post("/priority",priorityController.addPriority)
+app.get("/priority",priorityController.getAllPriority)
+app.delete("/priority/:priorityId",priorityController.deletePriority)
+app.put("/priority",priorityController.updatePriority)
 
 //server
 app.listen(3000,function(){

@@ -5,7 +5,8 @@ const RoleModel = require("../Model/role-model")
 module.exports.addRole=function addRole(req,res){
     console.log(req.body.roleName);
     let role = new RoleModel({
-        roleName:req.body.roleName
+        roleName:req.body.roleName,
+        isActive:1
     })
     role.save(function(err,success){
         if(err){
@@ -44,6 +45,7 @@ module.exports.deleteRoles = function(req,res){
 module.exports.updateRole = function(req,res){
     let roleId = req.body.roleId
     let roleName = req.body.roleName
+    //let isActive = req.body.isActive
 
     RoleModel.updateOne({_id:roleId},{roleName:roleName},function(err,data){
         if(err){
