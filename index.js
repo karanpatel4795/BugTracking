@@ -7,6 +7,12 @@ const roleController = require("./controller/role-controller")
 const userController = require("./controller/user-controller")
 const statusController = require("./controller/status-controller")
 const priorityController = require("./controller/priority-controller")
+const projectController = require("./controller/project-controller")
+const projectTeamController = require("./controller/projectTeam-controller")
+const taskUserController = require("./controller/taskUser-controller")
+const moduleController = require("./controller/module-controller")
+const taskController = require("./controller/task-controller")
+const bugController = require("./controller/bug-controller")
 
 const app = express()
 
@@ -65,6 +71,40 @@ app.post("/priority",priorityController.addPriority)
 app.get("/priority",priorityController.getAllPriority)
 app.delete("/priority/:priorityId",priorityController.deletePriority)
 app.put("/priority",priorityController.updatePriority)
+
+//project
+app.post("/projects",projectController.addProject)
+app.get("/projects",projectController.getAllProject)
+app.delete("/projects/:projectId",projectController.deleteProject)
+app.put("/projects",projectController.updateproject)
+
+//projectTeam
+app.post("/projectTeam",projectTeamController.addProjectTeamMember)
+app.get("/projectTeam",projectTeamController.getAllProjectMember)
+app.delete("/projectTeam/:projectTeamId",projectTeamController.deleteProjectTeamMember)
+
+//module
+app.post("/modules",moduleController.addModule)
+app.get("/modules",moduleController.getAllmodule)
+app.delete("/modules",moduleController.deleteModule)
+app.put("/modules",moduleController.updateModule)
+
+//task
+app.post("/tasks",taskController.addTask)
+app.get("/tasks",taskController.getAllTask)
+app.delete("/tasks",taskController.deleteTask)
+app.put("/taks",taskController.updateTask)
+
+//taskUser
+app.post("/taskusers",taskUserController.addTaskUser)
+app.get("/taskusers",taskUserController.getAllTaskUser)
+app.delete("/taskusers/:taskUser",taskUserController.deleteTaskUser)
+
+//bug
+app.post("/bugs",bugController.addBug)
+app.get("/bugs",bugController.getAllBug)
+app.delete("/bugs",bugController.deleteBug)
+app.put("/bugs",bugController.updateBug)
 
 //server
 app.listen(3000,function(){
