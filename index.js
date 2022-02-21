@@ -59,6 +59,8 @@ app.post("/users",userController.addUser)
 app.get("/users",userController.getAllUser)
 app.delete("/users/:userId",userController.deleteUser)
 app.put("/users",userController.updateUser)
+//user-login
+app.post("/login",userController.login)
 
 //status
 app.post("/status",statusController.addStatus)

@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt")
 const UserModel = require("../Model/user-model")
 
 //add user
@@ -8,10 +9,12 @@ module.exports.addUser = function(req,res){
     let role = req.body.role
     let isActive = 1 
 
+    let encPassword = bcrypt.hashSync(password,10)
+
     let user = new UserModel({
         firstName: firstName,
         email: email,
-        password: password,
+        password: encPassword,
         role: role,
         isActive : isActive
     })
@@ -64,4 +67,28 @@ module.exports.updateUser = function(req,res){
             res.json({msg:"Data Updated",status:200,data:data})
         }
     })
+}
+
+module.exports.login = function(req,res){
+
+    let param_email = req.body.email
+    let param_password  = req.body.password 
+
+    let isCorrect = false; 
+
+    UserModel.findOne({email:param_email},function(err,data){
+        if(data){
+            let ans =  bcrypt.compareSync(param_password,data.password)
+            if(ans == true){
+                    isCorrect = true
+            }
+        }
+    
+        if (isCorrect == false) {
+            res.json({ msg: "Invalid Email/Password...", data: req.body, status: -1 })//-1  [ 302 404 500 ]
+        } else {
+            res.json({ msg: "Login....", data: data, status: 200 })//http status code 
+        }
+    })
+
 }

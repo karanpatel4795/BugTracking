@@ -2,7 +2,7 @@ const StatusModel = require("../Model/status-model")
 
 //add data to table
 module.exports.addStatus=function (req,res){
-    console.log(req.body.statusName);
+    //console.log(req.body.statusName);
     let statusName = req.body.statusName  
     let isActive = 1 
     

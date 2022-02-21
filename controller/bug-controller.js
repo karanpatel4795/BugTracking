@@ -22,13 +22,11 @@ module.exports.addBug = function (req, res) {
         statusId:statusId
     })
 
-
-
     bug.save(function (err, data) {
         if (err) {
-            res.json({ msg: "SMW", data: err, status: -1 })//-1  [ 302 404 500 ]
+            res.json({ msg: "Something Wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
         } else {
-            res.json({ msg: "signup done", data: data, status: 200 })//http status code 
+            res.json({ msg: "Bug added", data: data, status: 200 })//http status code 
         }
     })
 
@@ -37,9 +35,9 @@ module.exports.addBug = function (req, res) {
 //list
 module.exports.getAllBug = function (req, res) {
 
-    BugModel.find(function (err, data) {
+    BugModel.find().populate("taskId").populate("priorityId").populate("statusId").exec(function (err, data) {
         if (err) {
-            res.json({ msg: "Somthing went wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
+            res.json({ msg: "Somthing went wrong", data:err, status: -1 })//-1  [ 302 404 500 ]
         } else {
             res.json({ msg: "bug ret...", data: data, status: 200 })//http status code 
         }
