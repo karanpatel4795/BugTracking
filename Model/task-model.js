@@ -14,7 +14,7 @@ let TaskSchema = new mongoose.Schema({
             type:String
         },
         startDate:{
-            type:Date
+            type:String
         },
         priorityId : {
                 type:mongoose.Schema.Types.ObjectId,

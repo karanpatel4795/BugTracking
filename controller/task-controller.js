@@ -11,6 +11,7 @@ module.exports.addTask = function (req, res) {
     let moduleId = req.body.moduleId
     let projectId= req.body.projectId
     let statusId = req.body.statusId
+    let priorityId = req.body.priorityId
 
     let task = new TaskModel({
         taskName: taskName,
@@ -19,10 +20,9 @@ module.exports.addTask = function (req, res) {
         startDate: startDate,
         projectId :projectId,
         moduleId:moduleId,
-        statusId:statusId
+        statusId:statusId,
+        priorityId:priorityId
     })
-
-
 
     task.save(function (err, data) {
         if (err) {
@@ -37,7 +37,7 @@ module.exports.addTask = function (req, res) {
 //list
 module.exports.getAllTask = function (req, res) {
 
-    TaskModel.find(function (err, data) {
+    TaskModel.find().populate("priorityId").populate("statusId").populate(moduleId).exec(function (err, data) {
         if (err) {
             res.json({ msg: "Somthing went wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
         } else {

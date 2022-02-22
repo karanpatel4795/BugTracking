@@ -18,7 +18,7 @@ let UserSchema = new mongoose.Schema({
         ref:"role"
     },
     isAcive:{
-        type:Number
+        type:Boolean
     }
 })
 

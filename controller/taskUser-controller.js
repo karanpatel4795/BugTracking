@@ -22,7 +22,7 @@ module.exports.addTaskUser=function (req,res){
 }
 //list
 module.exports.getAllTaskUser = function(req,res){
-    TaskUserModel.find(function(err,roles){
+    TaskUserModel.find().populate("taskUser").populate("taskId").exec(function(err,roles){
         if(err){
             res.json({msg:"Something Wrong",status:-1,data:req.body})
         }

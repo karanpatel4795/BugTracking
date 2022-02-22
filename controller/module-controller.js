@@ -35,7 +35,7 @@ module.exports.addModule = function (req, res) {
 //list
 module.exports.getAllmodule = function (req, res) {
 
-    ModuleModel.find(function (err, data) {
+    ModuleModel.find().populate("priorityId").populate("projectId").populate("statusId").exec(function (err, data) {
         if (err) {
             res.json({ msg: "Somthing wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
         } else {
