@@ -2,7 +2,6 @@ const express = require("express")
 const mongoose = require("mongoose")
 
 const sessionController = require("./controller/session-contoller")
-
 const roleController = require("./controller/role-controller")
 const userController = require("./controller/user-controller")
 const statusController = require("./controller/status-controller")
@@ -14,9 +13,11 @@ const moduleController = require("./controller/module-controller")
 const taskController = require("./controller/task-controller")
 const bugController = require("./controller/bug-controller")
 
+const cors  = require("cors")
 const app = express()
 
 //middle ware
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 mongoose.connect('mongodb://localhost:27017/BugTracking',function(err){
@@ -47,18 +48,21 @@ app.get("/signup",function(req,res){
 app.get("/login",sessionController.login)
 app.get("/signup",sessionController.signup)
 app.post("/saveuser",sessionController.saveuser)
+app.post("/sendOTP",sessionController.sendOTP)
 
 //role
 app.post("/roles",roleController.addRole)
 app.get("/roles",roleController.getAllRoles)
 app.delete("/roles/:roleId",roleController.deleteRoles)
 app.put("/roles",roleController.updateRole)
+app.get("/roles/:roleId",roleController.getRoleById)
 
 //user
 app.post("/users",userController.addUser)
 app.get("/users",userController.getAllUser)
 app.delete("/users/:userId",userController.deleteUser)
 app.put("/users",userController.updateUser)
+app.get("/users/:userId",userController.getUserById)
 //user-login
 app.post("/login",userController.login)
 
