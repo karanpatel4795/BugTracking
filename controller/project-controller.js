@@ -34,12 +34,13 @@ module.exports.addProject=function (req,res){
 }
 //list
 module.exports.getAllProject = function(req,res){
-    ProjectModel.find().populate("status").exec(function(err,roles){
+    ProjectModel.find().populate("statusId").exec(function(err,project){
         if(err){
-            res.json({msg:"Something Wrong",status:-1,data:req.body})
+            //console.log(err);
+            res.json({msg:"Something Wrong",status:-1,data:err})
         }
         else{
-            res.json({msg:"Data Retraive",status:200,data:roles})
+            res.json({msg:"Data Retraive",status:200,data:project})
         }
     })
 }

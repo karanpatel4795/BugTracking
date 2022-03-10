@@ -1,4 +1,5 @@
 const { status } = require("express/lib/response");
+const { findOneAndReplace } = require("../Model/role-model");
 const RoleModel = require("../Model/role-model")
 
 //add data to table
@@ -37,7 +38,7 @@ module.exports.deleteRoles = function(req,res){
             res.json({msg:"Something Wrong",status:-1,data:req.body})
         }
         else{
-            res.json({msg:"Data Retraive",status:200,data:data})
+            res.json({msg:"Role Deleted",status:200,data:data})
         }
     })
 }
@@ -53,6 +54,18 @@ module.exports.updateRole = function(req,res){
         }
         else{
             res.json({msg:"Data Updated",status:200,data:data})
+        }
+    })
+}
+
+module.exports.getRoleById = function(req,res){
+    let roleId = req.params.roleId
+    RoleModel.findOne({_id:roleId},function(err,data){
+        if(err){
+            res.json({msg:"Something Wrong",status:-1,data:err})
+        }
+        else{
+            res.json({msg:"Data Retraive",status:200,data:data})
         }
     })
 }

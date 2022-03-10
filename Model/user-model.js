@@ -19,6 +19,15 @@ let UserSchema = new mongoose.Schema({
     },
     isAcive:{
         type:Boolean
+    },
+    gender:{
+        type:String
+    },
+    contactNumber:{
+        type:String
+    },
+    OTP:{
+        type:String
     }
 })
 
