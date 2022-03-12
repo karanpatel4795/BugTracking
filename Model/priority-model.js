@@ -10,4 +10,4 @@ isActive:{
 })
 //modal
 const PriorityModel = mongoose.model("priority",PrioritySchema)
-module.exports = PriorityModel;
+module.exports = PriorityModel; 

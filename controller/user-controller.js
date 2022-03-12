@@ -107,3 +107,15 @@ module.exports.getUserById = function(req,res){
         }
     })
 }
+
+module.exports.getAllManager = function(req,res){
+    UserModel.find({role:"6228f0b812209b8603f2d88c"},function(err,managers){
+        if(err){
+            res.json({msg:"Something Wrong",status:-1,data:req.body})
+        }
+        else{
+           //console.log(managers)
+            res.json({msg:"Data Retraive",status:200,data:managers})
+        }
+    })
+}

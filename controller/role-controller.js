@@ -1,5 +1,4 @@
 const { status } = require("express/lib/response");
-const { findOneAndReplace } = require("../Model/role-model");
 const RoleModel = require("../Model/role-model")
 
 //add data to table
@@ -69,3 +68,4 @@ module.exports.getRoleById = function(req,res){
         }
     })
 }
+

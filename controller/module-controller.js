@@ -10,7 +10,7 @@ module.exports.addModule = function (req, res) {
     let startDate = req.body.startDate
     let priorityId = req.body.priorityId
     let projectId= req.body.projectId
-    let statusId = req.body.statusId
+    let statusId = "622b5606f4370ecb2982e488"
 
     let module = new ModuleModel({
         moduleName: moduleName,
