@@ -48,7 +48,8 @@ app.get("/signup",function(req,res){
 app.get("/login",sessionController.login)
 app.get("/signup",sessionController.signup)
 app.post("/saveuser",sessionController.saveuser)
-app.post("/sendOTP",sessionController.sendOTP)
+app.post("/sendotp",sessionController.sendOTP)
+app.post("/otpVerification",sessionController.otpVerification)
 
 //role
 app.post("/roles",roleController.addRole)
@@ -65,6 +66,8 @@ app.put("/users",userController.updateUser)
 app.get("/users/:userId",userController.getUserById)
 //user-login
 app.post("/login",userController.login)
+app.get("/managers",userController.getAllManager)
+
 
 //status
 app.post("/status",statusController.addStatus)
@@ -82,7 +85,8 @@ app.put("/priority",priorityController.updatePriority)
 app.post("/projects",projectController.addProject)
 app.get("/projects",projectController.getAllProject)
 app.delete("/projects/:projectId",projectController.deleteProject)
-app.put("/projects",projectController.updateproject)
+app.put("/projects",projectController.updateProject)
+app.get("/projects/:projectId",projectController.getProjectById)
 
 //projectTeam
 app.post("/projectTeam",projectTeamController.addProjectTeamMember)
@@ -92,14 +96,17 @@ app.delete("/projectTeam/:projectTeamId",projectTeamController.deleteProjectTeam
 //module
 app.post("/modules",moduleController.addModule)
 app.get("/modules",moduleController.getAllmodule)
-app.delete("/modules",moduleController.deleteModule)
+app.delete("/modules/:moduleId",moduleController.deleteModule)
 app.put("/modules",moduleController.updateModule)
+app.get("/modules/:moduleId",moduleController.getModuleById)
+app.get("/module/:project",moduleController.getModulebyproject)
 
 //task
 app.post("/tasks",taskController.addTask)
 app.get("/tasks",taskController.getAllTask)
-app.delete("/tasks",taskController.deleteTask)
-app.put("/taks",taskController.updateTask)
+app.delete("/tasks/:taskId",taskController.deleteTask)
+app.put("/tasks",taskController.updateTask)
+app.get("/tasks/:taskId",taskController.getTaskById)
 
 //taskUser
 app.post("/taskusers",taskUserController.addTaskUser)
