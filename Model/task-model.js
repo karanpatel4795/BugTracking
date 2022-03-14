@@ -20,6 +20,10 @@ let TaskSchema = new mongoose.Schema({
                 type:mongoose.Schema.Types.ObjectId,
                 ref:"priority"
         },
+        projectId : {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"project"
+    },
         moduleId : {
             type:mongoose.Schema.Types.ObjectId,
             ref:"module"
