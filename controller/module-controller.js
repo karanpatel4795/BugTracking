@@ -90,7 +90,7 @@ module.exports.getModuleById = function (req, res) {
 module.exports.getModulebyproject = function (req, res) {
     let projectId = req.params.project
     console.log(projectId)
-    ModuleModel.findOne({ projectId: projectId }).populate("projectId").exec(function (err, data) {
+    ModuleModel.find({ projectId: projectId }).populate("projectId").exec(function (err, data) {
         if (err) {
             res.json({ msg: "Something Wrong", status: -1, data: err })
         }

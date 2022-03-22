@@ -1,5 +1,6 @@
 const fs = require("fs")
 const bcrypt = require("bcrypt")
+const nodemailer = require("nodemailer");
 const UserModel = require("../Model/user-model")
 
 function login(req, res) {
@@ -24,7 +25,30 @@ function sendOTP(req, res) {
             if (data.length != 0) {
                 let myOTP = parseInt(Math.random() * 1000000)
                 UserModel.updateOne({ email: emailParam }, { OTP: myOTP }, function (err, success) {
-                    res.json({ status: 200, msg: "OTP sent to Your Email!", data: "" })
+                    let transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: "bugtracking.helpdesk@gmail.com",
+                            pass: "BugTrackingSystem#123"
+                        }
+                    });
+
+                    let info = {
+                        from: "bugtracking.helpdesk@gmail.com",
+                        to: emailParam,
+                        subject: "Forgot Password",
+                        text: "Hey, Your Forgot Password OTP is : " + myOTP,
+                        //html: "<b>Hello world?</b>",
+                    };
+
+                    transporter.sendMail(info, function (err, data) {
+                        if (err) {
+                            console.log(err)
+                            res.json({ status: -1, msg: "Something Wrong!", data: err })
+                        } else {
+                            res.json({ status: 200, msg: "OTP sent to Your Email!", data: data })
+                        }
+                    });
                 })
 
             } else {
@@ -40,7 +64,7 @@ function otpVerification(req, res) {
     let passParam = req.body.pass
     let cpassParam = req.body.cpass
     UserModel.findOne({ email: emailParam }, function (err, data) {
-       // console.log(optParam)
+        // console.log(optParam)
         if (err) {
             res.json({ status: -1, msg: "Something Wrong!", data: err })
         }
@@ -51,8 +75,8 @@ function otpVerification(req, res) {
             if (data.OTP == optParam) {
 
                 if (passParam == cpassParam) {
-                    let encPassword = bcrypt.hashSync(passParam,10)
-                    UserModel.updateOne({ email: emailParam },{ OTP:"" ,  password: encPassword }, function (err, success) {
+                    let encPassword = bcrypt.hashSync(passParam, 10)
+                    UserModel.updateOne({ email: emailParam }, { OTP: "", password: encPassword }, function (err, success) {
                         res.json({ status: 200, msg: "Password Changed!", data: "" })
                     })
                 }

@@ -17,7 +17,7 @@ let UserSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"role"
     },
-    isAcive:{
+    isActive:{
         type:Boolean
     },
     gender:{
@@ -27,6 +27,9 @@ let UserSchema = new mongoose.Schema({
         type:String
     },
     OTP:{
+        type:String
+    },
+    status:{
         type:String
     }
 })

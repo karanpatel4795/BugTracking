@@ -2,70 +2,85 @@ const { status } = require("express/lib/response");
 const RoleModel = require("../Model/role-model")
 
 //add data to table
-module.exports.addRole=function addRole(req,res){
+module.exports.addRole = function addRole(req, res) {
     console.log(req.body.roleName);
     let role = new RoleModel({
-        roleName:req.body.roleName,
-        isActive:1
+        roleName: req.body.roleName,
+        isActive: 1
     })
-    role.save(function(err,success){
-        if(err){
+    role.save(function (err, success) {
+        if (err) {
             console.log(err);
-            res.json({msg:"Something Wrong",status:-1,data:req.body})        
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }
-        else{
-            res.json({msg:"Role added",status:200,data:success})
+        else {
+            res.json({ msg: "Role added", status: 200, data: success })
         }
     })
 }
 //list All Data from table
-module.exports.getAllRoles = function(req,res){
-    RoleModel.find(function(err,roles){
-        if(err){
-            res.json({msg:"Something Wrong",status:-1,data:req.body})
+module.exports.getAllRoles = function (req, res) {
+    RoleModel.find(function (err, roles) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }
-        else{
-            res.json({msg:"Data Retraive",status:200,data:roles})
+        else {
+            res.json({ msg: "Data Retraive", status: 200, data: roles })
         }
     })
 }
 //delete data from table
-module.exports.deleteRoles = function(req,res){
+module.exports.deleteRoles = function (req, res) {
     let roleId = req.params.roleId
-    RoleModel.deleteOne({_id:roleId},function(err,data) {
-        if(err){
-            res.json({msg:"Something Wrong",status:-1,data:req.body})
+    RoleModel.deleteOne({ _id: roleId }, function (err, data) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }
-        else{
-            res.json({msg:"Role Deleted",status:200,data:data})
+        else {
+            res.json({ msg: "Role Deleted", status: 200, data: data })
         }
     })
 }
 //upadte data from table
-module.exports.updateRole = function(req,res){
+module.exports.updateRole = function (req, res) {
     let roleId = req.body.roleId
     let roleName = req.body.roleName
     //let isActive = req.body.isActive
 
-    RoleModel.updateOne({_id:roleId},{roleName:roleName},function(err,data){
-        if(err){
-            res.json({msg:"Something Wrong",status:-1,data:req.body})
+    RoleModel.updateOne({ _id: roleId }, { roleName: roleName }, function (err, data) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }
-        else{
-            res.json({msg:"Data Updated",status:200,data:data})
+        else {
+            res.json({ msg: "Data Updated", status: 200, data: data })
         }
     })
 }
 
-module.exports.getRoleById = function(req,res){
+module.exports.getRoleById = function (req, res) {
     let roleId = req.params.roleId
-    RoleModel.findOne({_id:roleId},function(err,data){
-        if(err){
-            res.json({msg:"Something Wrong",status:-1,data:err})
+    RoleModel.findOne({ _id: roleId }, function (err, data) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: err })
         }
-        else{
-            res.json({msg:"Data Retraive",status:200,data:data})
+        else {
+            res.json({ msg: "Data Retraive", status: 200, data: data })
         }
     })
 }
-
+module.exports.getRoles = function (req, res) {
+    RoleModel.find(function (err, roles) {
+        if (err) {
+            res.json({ msg: "Something Wrong!", status: -1, data: req.body })
+        }
+        else {
+            if (roles._id == "6228efec12209b8603f2d882" || roles._id == "6228eff112209b8603f2d884") {
+                res.json({ msg: "Roles Retraive", status: 200, data: roles })
+                console.log(roles)
+            }
+            else {
+                res.json({ msg: "Something Wrong!", status: -1, data: req.body })
+            }
+        }
+    })
+}

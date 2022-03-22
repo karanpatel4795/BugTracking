@@ -85,3 +85,17 @@ module.exports.getProjectById = function(req,res){
         }
     })
 }
+module.exports.getAllProjects = function(req,res){
+    let projectManagerIDParam = req.params.projectManagerId
+   //console.log(projectManagerIDParam)
+
+    ProjectModel.find({projectManagerID:projectManagerIDParam}).populate("statusId").populate("projectManagerID").exec(function(err,project){
+        if(err){
+            //console.log(err);
+            res.json({msg:"Something Wrong",status:-1,data:err})
+        }
+        else{
+            res.json({msg:"Data Retraive",status:200,data:project})
+        }
+    })
+}
