@@ -57,16 +57,21 @@ app.get("/roles",roleController.getAllRoles)
 app.delete("/roles/:roleId",roleController.deleteRoles)
 app.put("/roles",roleController.updateRole)
 app.get("/roles/:roleId",roleController.getRoleById)
-
+app.get("/role",roleController.getRoles)
+app.get("/roleStatus/:roleId",roleController.roleStatus)
 //user
 app.post("/users",userController.addUser)
 app.get("/users",userController.getAllUser)
 app.delete("/users/:userId",userController.deleteUser)
 app.put("/users",userController.updateUser)
 app.get("/users/:userId",userController.getUserById)
+app.get("/pendingusers",userController.pendingusers)
+app.post("/disableuser/",userController.disableUser)
+app.post("/approveUser",userController.approveUser)
 //user-login
 app.post("/login",userController.login)
 app.get("/managers",userController.getAllManager)
+app.get("/usersforProjectManager",userController.usersforProjectManager)
 
 
 //status
@@ -87,6 +92,9 @@ app.get("/projects",projectController.getAllProject)
 app.delete("/projects/:projectId",projectController.deleteProject)
 app.put("/projects",projectController.updateProject)
 app.get("/projects/:projectId",projectController.getProjectById)
+app.get("/getAllprojects/:projectManagerId",projectController.getAllProjects)// project manager
+app.get("/getAllPendingProject/:projectManagerId",projectController.getAllPendingProject)
+app.get("/getAllCompletedProject/:projectManagerId",projectController.getAllCompletedProject)
 
 //projectTeam
 app.post("/projectTeam",projectTeamController.addProjectTeamMember)
@@ -100,6 +108,7 @@ app.delete("/modules/:moduleId",moduleController.deleteModule)
 app.put("/modules",moduleController.updateModule)
 app.get("/modules/:moduleId",moduleController.getModuleById)
 app.get("/module/:project",moduleController.getModulebyproject)
+app.get("/getAllModulesForProjectManager/:projectManagerId",moduleController.getAllModulesForProjectManager)//project Manager
 
 //task
 app.post("/tasks",taskController.addTask)
