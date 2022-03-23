@@ -37,7 +37,7 @@ module.exports.addUser = function (req, res) {
 
 //list user
 module.exports.getAllUser = function (req, res) {
-    UserModel.find({ isActive: true, role: { $not: { $eq: "6228efe612209b8603f2d880" } } }).populate("role").exec(function (err, data) {
+    UserModel.find({ role: { $not: { $eq: "6228efe612209b8603f2d880" } } }).populate("role").exec(function (err, data) {
         if (err) {
             res.json({ msg: "Somethiing Wrong...", status: -1, data: req.body })
         }
@@ -49,9 +49,23 @@ module.exports.getAllUser = function (req, res) {
     })
 }
 
+// role: {
+//     $ne: [{"6228efe612209b8603f2d880"},{"6228f0b812209b8603f2d88c"}],
+//   }   
 module.exports.usersforProjectManager = function (req, res) {
-    UserModel.find({ isActive: true, role: { $not: { $and: [{ $eq: "6228efe612209b8603f2d880" }, { $eq: "6228f0b812209b8603f2d88c" }] } } }).populate("role").exec(function (err, data) {
+    UserModel.find(
+        {  
+            isActive:true,
+               role:{
+                   $nin : ["6228efe612209b8603f2d880","6228f0b812209b8603f2d88c"]
+               }
+                            
+        
+        }
+        
+        ).populate("role").exec(function (err, data) {
         if (err) {
+            console.log(err);
             res.json({ msg: "Somethiing Wrong...", status: -1, data: req.body })
         }
         else {
@@ -93,18 +107,19 @@ module.exports.login = function (req, res) {
     let param_password = req.body.password
 
     let isCorrect = false
-    UserModel.findOne({ email: param_email }).populate("role").exec(function (err, data) {
-        if (data) {
+    UserModel.findOne({ email: param_email}).populate("role").exec(function (err, data) {
             if (data.isActive == true) {
                 let ans = bcrypt.compareSync(param_password, data.password)
                 if (ans == true) {
                     isCorrect = true
                 }
             }
-        }
+            else{
+                res.json({ msg: "Admin Approval is Pending", data: req.body, status: -1 })
+            }
 
         if (isCorrect == false) {
-            res.json({ msg: "Invalid Email/Password...", data: req.body, status: -1 })//-1  [ 302 404 500 ]
+            res.json({ msg: "Invalid Email/Password...", data: req.body, status: -1 })
         } else {
             res.json({ msg: "Login....", data: data, status: 200 })//http status code 
         }

@@ -69,9 +69,9 @@ function otpVerification(req, res) {
             res.json({ status: -1, msg: "Something Wrong!", data: err })
         }
         else {
-            console.log(data)
-            console.log(data.OTP)
-            console.log(optParam)
+            //console.log(data)
+            //console.log(data.OTP)
+            //console.log(optParam)
             if (data.OTP == optParam) {
 
                 if (passParam == cpassParam) {

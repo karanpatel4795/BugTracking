@@ -84,3 +84,15 @@ module.exports.getRoles = function (req, res) {
         }
     })
 }
+
+module.exports.roleStatus = function (req, res) {
+    let roleId = req.params.roleId
+    RoleModel.updateOne({ _id: roleId },{isActive:false}, function (err, data) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+            res.json({ msg: "Status Changed", status: 200, data: data })
+        }
+    })
+}
