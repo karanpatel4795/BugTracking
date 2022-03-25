@@ -132,3 +132,25 @@ module.exports.getAllCompletedProject = function (req, res) {
         }
     })
 }
+
+module.exports.pendingProjects = function (req, res) {
+    ProjectModel.find({statusId:{$ne:"620fbb47afe355342d2bd547"}}).populate("statusId").populate("projectManagerID").exec(function (err, project) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: err })
+        }
+        else {
+            res.json({ msg: "Data Retraive", status: 200, data: project })
+        }
+    })
+}
+
+module.exports.completedProjects = function (req, res) {
+    ProjectModel.find({statusId:"620fbb47afe355342d2bd547"}).populate("statusId").populate("projectManagerID").exec(function (err, project) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: err })
+        }
+        else {
+            res.json({ msg: "Data Retraive", status: 200, data: project })
+        }
+    })
+}

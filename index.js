@@ -45,9 +45,12 @@ app.get("/signup",function(req,res){
     res.write("Signup...")
     res.end()
 })*/
+
+/*
 app.get("/login",sessionController.login)
 app.get("/signup",sessionController.signup)
 app.post("/saveuser",sessionController.saveuser)
+*/
 app.post("/sendotp",sessionController.sendOTP)
 app.post("/otpVerification",sessionController.otpVerification)
 
@@ -68,6 +71,7 @@ app.get("/users/:userId",userController.getUserById)
 app.get("/pendingusers",userController.pendingusers)
 app.post("/disableuser/",userController.disableUser)
 app.post("/approveUser",userController.approveUser)
+app.put("/changePassword",userController.changePassword)
 //user-login
 app.post("/login",userController.login)
 app.get("/managers",userController.getAllManager)
@@ -92,6 +96,8 @@ app.get("/projects",projectController.getAllProject)
 app.delete("/projects/:projectId",projectController.deleteProject)
 app.put("/projects",projectController.updateProject)
 app.get("/projects/:projectId",projectController.getProjectById)
+app.get("/pendingProjects",projectController.pendingProjects)
+app.get("/completedProjects",projectController.completedProjects)
 app.get("/getAllprojects/:projectManagerId",projectController.getAllProjects)// project manager
 app.get("/getAllPendingProject/:projectManagerId",projectController.getAllPendingProject)
 app.get("/getAllCompletedProject/:projectManagerId",projectController.getAllCompletedProject)

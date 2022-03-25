@@ -34,7 +34,6 @@ module.exports.addUser = function (req, res) {
         }
     })
 }
-
 //list user
 module.exports.getAllUser = function (req, res) {
     UserModel.find({ role: { $not: { $eq: "6228efe612209b8603f2d880" } } }).populate("role").exec(function (err, data) {
@@ -48,22 +47,18 @@ module.exports.getAllUser = function (req, res) {
         }
     })
 }
-
-// role: {
-//     $ne: [{"6228efe612209b8603f2d880"},{"6228f0b812209b8603f2d88c"}],
-//   }   
 module.exports.usersforProjectManager = function (req, res) {
     UserModel.find(
-        {  
-            isActive:true,
-               role:{
-                   $nin : ["6228efe612209b8603f2d880","6228f0b812209b8603f2d88c"]
-               }
-                            
-        
+        {
+            isActive: true,
+            role: {
+                $nin: ["6228efe612209b8603f2d880", "6228f0b812209b8603f2d88c"]
+            }
+
+
         }
-        
-        ).populate("role").exec(function (err, data) {
+
+    ).populate("role").exec(function (err, data) {
         if (err) {
             console.log(err);
             res.json({ msg: "Somethiing Wrong...", status: -1, data: req.body })
@@ -84,7 +79,6 @@ module.exports.deleteUser = function (req, res) {
         }
     })
 }
-
 //update user data
 module.exports.updateUser = function (req, res) {
     let userId = req.body.userId
@@ -100,23 +94,22 @@ module.exports.updateUser = function (req, res) {
         }
     })
 }
-
 module.exports.login = function (req, res) {
 
     let param_email = req.body.email
     let param_password = req.body.password
 
     let isCorrect = false
-    UserModel.findOne({ email: param_email}).populate("role").exec(function (err, data) {
-            if (data.isActive == true) {
-                let ans = bcrypt.compareSync(param_password, data.password)
-                if (ans == true) {
-                    isCorrect = true
-                }
+    UserModel.findOne({ email: param_email }).populate("role").exec(function (err, data) {
+        if (data.isActive == true) {
+            let ans = bcrypt.compareSync(param_password, data.password)
+            if (ans == true) {
+                isCorrect = true
             }
-            else{
-                res.json({ msg: "Admin Approval is Pending", data: req.body, status: -1 })
-            }
+        }
+        else {
+            res.json({ msg: "Admin Approval is Pending", data: req.body, status: -1 })
+        }
 
         if (isCorrect == false) {
             res.json({ msg: "Invalid Email/Password...", data: req.body, status: -1 })
@@ -125,7 +118,6 @@ module.exports.login = function (req, res) {
         }
     })
 }
-
 module.exports.getUserById = function (req, res) {
     let userId = req.params.userId
     UserModel.findOne({ _id: userId }, function (err, data) {
@@ -137,7 +129,6 @@ module.exports.getUserById = function (req, res) {
         }
     })
 }
-
 module.exports.getAllManager = function (req, res) {
     UserModel.find({ role: "6228f0b812209b8603f2d88c" }, function (err, managers) {
         if (err) {
@@ -180,6 +171,35 @@ module.exports.approveUser = function (req, res) {
         }
         else {
             res.json({ msg: "User Approved", status: 200, data: managers })
+        }
+    })
+}
+module.exports.changePassword = function (req, res) {
+    let emailParam = req.body.email
+    let cps = req.body.cps
+    let nps = req.body.nps
+    let cnps = req.body.cnps
+    let isCorrect = false
+    console.log("HELLO");
+    console.log(emailParam);
+    UserModel.findOne({ email: emailParam }, function (err, data) {
+
+        let ans = bcrypt.compareSync(cps, data.password)
+        if (ans == true) {
+            isCorrect = true
+        }
+        if (isCorrect == false) {
+            res.json({ msg: "Current Password is Not Valid!", data: req.body, status: -1 })
+        } else {
+            if (nps == cnps) {
+                let encPassword = bcrypt.hashSync(nps, 10)
+                UserModel.updateOne({ email: userId }, { password: encPassword }, function (err, data) {
+                    res.json({ msg: "Password Changed!", status: 200, data: data })
+                })
+            }
+            else {
+                res.json({ msg: "New Password and Confirm Password Not Matched!", status: -1, data: err })
+            }
         }
     })
 }

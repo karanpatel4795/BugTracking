@@ -3,21 +3,23 @@ const bcrypt = require("bcrypt")
 const nodemailer = require("nodemailer");
 const UserModel = require("../Model/user-model")
 
-function login(req, res) {
+/*
+module.exports.login(req, res) {
     res.write("Login")
     res.end()
 }
-function signup(req, res) {
+module.exports.signup(req, res) {
     let signupHtml = fs.readFileSync("./views/Signup.html")
     res.write(signupHtml)
     res.end()
 }
-function saveuser(req, res) {
+module.exports.saveuser(req, res) {
     console.log(req.body)
     res.json({ msg: "Data Done...", status: 200, data: res.body })
-}
+}*/
 function sendOTP(req, res) {
     let emailParam = req.body.email
+   // console.log(emailParam);
     UserModel.find({ email: emailParam }, function (err, data) {
         if (err) {
             res.json({ status: -1, msg: "Something Wrong!", data: err })
@@ -91,8 +93,5 @@ function otpVerification(req, res) {
     })
 }
 
-module.exports.login = login
-module.exports.signup = signup
-module.exports.saveuser = saveuser
 module.exports.sendOTP = sendOTP
 module.exports.otpVerification = otpVerification
