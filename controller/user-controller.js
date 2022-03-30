@@ -11,6 +11,8 @@ module.exports.addUser = function (req, res) {
     let gender = req.body.gender
     let contactNumber = req.body.contactNumber
     let isActive = false;
+    let projectAssigned = false;
+    let activeProject = false;
 
     let encPassword = bcrypt.hashSync(password, 10)
 
@@ -200,6 +202,29 @@ module.exports.changePassword = function (req, res) {
             else {
                 res.json({ msg: "New Password and Confirm Password Not Matched!", status: -1, data: err })
             }
+        }
+    })
+}
+
+module.exports.getAllDeveloper = function (req, res) {
+    UserModel.find({ role: "6228efec12209b8603f2d882", projectAssigned:false}, function (err, developers) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+            //console.log(managers)
+            res.json({ msg: "Data Retraive", status: 200, data: developers })
+        }
+    })
+}
+module.exports.getAllTester = function (req, res) {
+    UserModel.find({ role: "6228eff112209b8603f2d884", projectAssigned:false}, function (err, testers) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+            //console.log(managers)
+            res.json({ msg: "Data Retraive", status: 200, data: testers })
         }
     })
 }

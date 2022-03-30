@@ -31,6 +31,12 @@ let UserSchema = new mongoose.Schema({
     },
     status:{
         type:String
+    },
+    projectAssigned:{
+        type:Boolean
+    },
+    activeProject:{
+        type:Boolean
     }
 })
 

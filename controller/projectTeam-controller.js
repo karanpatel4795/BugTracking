@@ -1,5 +1,5 @@
 const ProjectTeamModel = require("../Model/projectTeam-model")
-
+const UserModel = require("../Model/user-model")
 //add data to table
 module.exports.addProjectTeamMember=function (req,res){
     const projectTeamMember= req.body.projectTeamMember
