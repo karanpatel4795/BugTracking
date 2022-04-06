@@ -154,3 +154,15 @@ module.exports.completedProjects = function (req, res) {
         }
     })
 }
+module.exports.getprojectbyStatus = function(req,res){
+    let status = req.params.status
+    //console.log(status);
+    ProjectModel.find({statusId:status}).populate("statusId").populate("projectManagerID").exec(function(err,roles){
+        if(err){
+            res.json({msg:"Something Wrong",status:-1,data:req.body})
+        }
+        else{
+            res.json({msg:"Data Retraive",status:200,data:roles})
+        }
+    })
+}

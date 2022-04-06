@@ -1,10 +1,10 @@
 const ProjectTeamModel = require("../Model/projectTeam-model")
 const UserModel = require("../Model/user-model")
 //add data to table
-module.exports.addProjectTeamMember=function (req,res){
+module.exports.addProjectTeamMember = function (req,res){
     const projectTeamMember= req.body.projectTeamMember
     const projectId  = req.body.projectId 
-    const projectTeamstatus = req.body.projectTeamStatus
+    const projectTeamstatus = "Active"
     
     let ProjectTeam = new ProjectTeamModel({
         projectTeamMember:projectTeamMember,
@@ -17,7 +17,8 @@ module.exports.addProjectTeamMember=function (req,res){
             res.json({msg:"Something Wrong",status:-1,data:req.body})        
         }
         else{
-            res.json({msg:"ProjectMember added",status:200,data:success})
+            console.log(success);
+            res.json({msg:"ProjectMember Added",status:200,data:success})
         }
     })
 }
@@ -45,6 +46,8 @@ module.exports.deleteProjectTeamMember = function(req,res){
         }
     })
 }
+
+
 //update
 /*module.exports.updateprojectTeam = function(req,res){
     let projectTeamId = req.body.projectTeamId

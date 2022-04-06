@@ -76,6 +76,9 @@ app.put("/changePassword",userController.changePassword)
 app.post("/login",userController.login)
 app.get("/managers",userController.getAllManager)
 app.get("/usersforProjectManager",userController.usersforProjectManager)
+app.get("/getAllDeveloper",userController.getAllDeveloper)
+app.get("/getAllTester",userController.getAllTester)
+app.get("/getUserbyRole/:role",userController.getUserbyRole)
 
 
 //status
@@ -101,6 +104,7 @@ app.get("/completedProjects",projectController.completedProjects)
 app.get("/getAllprojects/:projectManagerId",projectController.getAllProjects)// project manager
 app.get("/getAllPendingProject/:projectManagerId",projectController.getAllPendingProject)
 app.get("/getAllCompletedProject/:projectManagerId",projectController.getAllCompletedProject)
+app.get("/getprojectbyStatus/:status",projectController.getprojectbyStatus)
 
 //projectTeam
 app.post("/projectTeam",projectTeamController.addProjectTeamMember)
