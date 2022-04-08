@@ -89,3 +89,17 @@ module.exports.getTaskById = function (req, res) {
         }
     })
 }
+module.exports.getTaskbyProject = function(req,res){
+    let projectId = req.body.projectId
+    let statusId = req.body.statusId
+    console.log(projectId);
+    TaskModel.find({projectId:projectId}).populate("statusId").populate("priorityId").populate("moduleId").populate("projectId").exec(function(err,tasks){
+        if(err){
+            res.json({msg:"Something Wrong",status:-1,data:req.body})
+        }
+        else{
+            //console.log(tasks);
+            res.json({msg:"Data Retraive",status:200,data:tasks})
+        }
+    })
+}

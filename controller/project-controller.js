@@ -1,5 +1,6 @@
 const ProjectModel = require("../Model/project-model")
 
+
 //add data to table
 module.exports.addProject = function (req, res) {
     const projectTitle = req.body.projectTitle
@@ -166,3 +167,4 @@ module.exports.getprojectbyStatus = function(req,res){
         }
     })
 }
+

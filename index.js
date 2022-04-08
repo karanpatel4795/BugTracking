@@ -79,6 +79,7 @@ app.get("/usersforProjectManager",userController.usersforProjectManager)
 app.get("/getAllDeveloper",userController.getAllDeveloper)
 app.get("/getAllTester",userController.getAllTester)
 app.get("/getUserbyRole/:role",userController.getUserbyRole)
+app.get("/getAllDevs",userController.getAllDevs)
 
 
 //status
@@ -107,9 +108,10 @@ app.get("/getAllCompletedProject/:projectManagerId",projectController.getAllComp
 app.get("/getprojectbyStatus/:status",projectController.getprojectbyStatus)
 
 //projectTeam
-app.post("/projectTeam",projectTeamController.addProjectTeamMember)
-app.get("/projectTeam",projectTeamController.getAllProjectMember)
-app.delete("/projectTeam/:projectTeamId",projectTeamController.deleteProjectTeamMember)
+app.post("/projectTeams",projectTeamController.addProjectTeamMember)
+app.get("/projectTeams/:project",projectTeamController.getAllProjectMember)
+app.delete("/projectTeams/:projectTeamId",projectTeamController.deleteProjectTeamMember)
+app.get("/disableUserForProject/:user",projectTeamController.disableUserForProject)
 
 //module
 app.post("/modules",moduleController.addModule)
@@ -126,6 +128,7 @@ app.get("/tasks",taskController.getAllTask)
 app.delete("/tasks/:taskId",taskController.deleteTask)
 app.put("/tasks",taskController.updateTask)
 app.get("/tasks/:taskId",taskController.getTaskById)
+app.get("/getTaskbyProject",taskController.getTaskbyProject)
 
 //taskUser
 app.post("/taskusers",taskUserController.addTaskUser)

@@ -235,3 +235,15 @@ module.exports.getUserbyRole = function (req, res) {
         }
     })
 }
+module.exports.getAllDevs = function (req, res) {
+    UserModel.find({ role: "6228efec12209b8603f2d882",isActive:true }, function (err, developers) {
+        if (err) {
+
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+
+            res.json({ msg: "Data Retraive", status: 200, data: developers })
+        }
+    })
+}

@@ -34,6 +34,5 @@ let TaskSchema = new mongoose.Schema({
 }
 })
 
-
 const TaskModel = mongoose.model("task",TaskSchema)
 module.exports = TaskModel
