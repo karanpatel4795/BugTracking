@@ -168,3 +168,15 @@ module.exports.getprojectbyStatus = function(req,res){
     })
 }
 
+module.exports.getProjectTitle = function(req,res){
+    let projectId = req.params.projectId
+    ProjectModel.find({_id:projectId},function(err,roles){
+        if(err){
+            res.json({msg:"Something Wrong",status:-1,data:req.body})
+        }
+        else{
+            res.json({msg:"Data Retraive",status:200,data:roles})
+        }
+    })
+}
+

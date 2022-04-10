@@ -12,8 +12,10 @@ const taskUserController = require("./controller/taskUser-controller")
 const moduleController = require("./controller/module-controller")
 const taskController = require("./controller/task-controller")
 const bugController = require("./controller/bug-controller")
+const bugStatusController  =require("./controller/bug-status-controller")
 
 const cors  = require("cors")
+const BugStatusModel = require("./model/bug-status-model")
 const app = express()
 
 //middle ware
@@ -76,6 +78,7 @@ app.put("/changePassword",userController.changePassword)
 app.post("/login",userController.login)
 app.get("/managers",userController.getAllManager)
 app.get("/usersforProjectManager",userController.usersforProjectManager)
+app.get("/getAllManagers",userController.getAllManagers)
 app.get("/getAllDeveloper",userController.getAllDeveloper)
 app.get("/getAllTester",userController.getAllTester)
 app.get("/getUserbyRole/:role",userController.getUserbyRole)
@@ -106,6 +109,7 @@ app.get("/getAllprojects/:projectManagerId",projectController.getAllProjects)// 
 app.get("/getAllPendingProject/:projectManagerId",projectController.getAllPendingProject)
 app.get("/getAllCompletedProject/:projectManagerId",projectController.getAllCompletedProject)
 app.get("/getprojectbyStatus/:status",projectController.getprojectbyStatus)
+app.get("/getProjectTitle/:projectId",projectController.getProjectTitle)
 
 //projectTeam
 app.post("/projectTeams",projectTeamController.addProjectTeamMember)
@@ -128,7 +132,7 @@ app.get("/tasks",taskController.getAllTask)
 app.delete("/tasks/:taskId",taskController.deleteTask)
 app.put("/tasks",taskController.updateTask)
 app.get("/tasks/:taskId",taskController.getTaskById)
-app.get("/getTaskbyProject",taskController.getTaskbyProject)
+app.post("/getTaskbyProject",taskController.getTaskbyProject)
 
 //taskUser
 app.post("/taskusers",taskUserController.addTaskUser)
@@ -140,6 +144,10 @@ app.post("/bugs",bugController.addBug)
 app.get("/bugs",bugController.getAllBug)
 app.delete("/bugs",bugController.deleteBug)
 app.put("/bugs",bugController.updateBug)
+
+//bug status
+app.post("/bugStatus",bugStatusController.addBugStatus)
+app.get("/bugStatus",bugStatusController.getAllBugStatus)
 
 //server
 app.listen(3000,function(){

@@ -7,9 +7,9 @@ module.exports.addTask = function (req, res) {
     let taskName = req.body.taskName
     let description = req.body.description
     let totalTime = req.body.totalTime
-   // let startDate = req.body.startDate
+    // let startDate = req.body.startDate
     let moduleId = req.body.moduleId
-    let projectId= req.body.projectId
+    let projectId = req.body.projectId
     let statusId = "622b5606f4370ecb2982e488"
     let priorityId = req.body.priorityId
 
@@ -18,13 +18,13 @@ module.exports.addTask = function (req, res) {
         description: description,
         totalTime: totalTime,
         //startDate: startDate,
-        projectId :projectId,
-        moduleId:moduleId,
-        statusId:statusId,
-        priorityId:priorityId
+        projectId: projectId,
+        moduleId: moduleId,
+        statusId: statusId,
+        priorityId: priorityId
     })
 
-  //  console.log(task);
+    //  console.log(task);
     task.save(function (err, data) {
         if (err) {
             res.json({ msg: "something wrong", data: err, status: -1 })
@@ -48,11 +48,11 @@ module.exports.getAllTask = function (req, res) {
 }
 
 //delete
-module.exports.deleteTask = function(req,res){
+module.exports.deleteTask = function (req, res) {
     //params userid 
     let taskId = req.params.taskId //postman -> userid 
 
-    TaskModel.deleteOne({_id:taskId},function (err, data) {
+    TaskModel.deleteOne({ _id: taskId }, function (err, data) {
         if (err) {
             res.json({ msg: "Somthing went wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
         } else {
@@ -63,14 +63,14 @@ module.exports.deleteTask = function(req,res){
 
 
 //update 
-module.exports.updateTask = function(req,res){
+module.exports.updateTask = function (req, res) {
     //params userid 
     let taskId = req.body.taskId //postman -> userid 
     let taskName = req.body.taskName
-    let description=req.body.description
+    let description = req.body.description
     let priority = req.body.priority
     let totalTime = req.body.totalTime
-    TaskModel.updateOne({_id:taskId},{taskName:taskName,description:description,priority:priority,totalTime:totalTime   },function (err, data) {
+    TaskModel.updateOne({ _id: taskId }, { taskName: taskName, description: description, priority: priority, totalTime: totalTime }, function (err, data) {
         if (err) {
             res.json({ msg: "Somthing went wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
         } else {
@@ -89,17 +89,27 @@ module.exports.getTaskById = function (req, res) {
         }
     })
 }
-module.exports.getTaskbyProject = function(req,res){
+module.exports.getTaskbyProject = function (req, res) {
     let projectId = req.body.projectId
     let statusId = req.body.statusId
-    console.log(projectId);
-    TaskModel.find({projectId:projectId}).populate("statusId").populate("priorityId").populate("moduleId").populate("projectId").exec(function(err,tasks){
-        if(err){
-            res.json({msg:"Something Wrong",status:-1,data:req.body})
-        }
-        else{
-            //console.log(tasks);
-            res.json({msg:"Data Retraive",status:200,data:tasks})
-        }
-    })
+    if (statusId == "") {
+        TaskModel.find({ projectId: projectId }).populate("statusId").populate("priorityId").populate("moduleId").populate("projectId").exec(function (err, tasks) {
+            if (err) {
+                res.json({ msg: "Something Wrong", status: -1, data: req.body })
+            }
+            else {
+                res.json({ msg: "Data Retraive", status: 200, data: tasks })
+            }
+        })
+    }
+    else{
+        TaskModel.find({ projectId: projectId,statusId:statusId }).populate("statusId").populate("priorityId").populate("moduleId").populate("projectId").exec(function (err, tasks) {
+            if (err) {
+                res.json({ msg: "Something Wrong", status: -1, data: req.body })
+            }
+            else {
+                res.json({ msg: "Data Retraive", status: 200, data: tasks })
+            }
+        })
+    }
 }

@@ -24,7 +24,9 @@ module.exports.addUser = function (req, res) {
         status: status,
         gender: gender,
         contactNumber: contactNumber,
-        isActive: isActive
+        isActive: isActive,
+        projectAssigned:projectAssigned,
+        activeProject:activeProject
     })
 
     user.save(function (err, data) {
@@ -197,9 +199,19 @@ module.exports.changePassword = function (req, res) {
         }
     })
 }
-
+module.exports.getAllManagers = function (req, res) {
+    UserModel.find({ role: "6228f0b812209b8603f2d88c",projectAssigned: false ,isActive:true }, function (err, managers) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+            //console.log(managers)
+            res.json({ msg: "Data Retraive", status: 200, data: managers })
+        }
+    })
+}
 module.exports.getAllDeveloper = function (req, res) {
-    UserModel.find({ role: "6228efec12209b8603f2d882", projectAssigned: false }, function (err, developers) {
+    UserModel.find({ role: "6228efec12209b8603f2d882", projectAssigned: false ,isActive:true}, function (err, developers) {
         if (err) {
 
             res.json({ msg: "Something Wrong", status: -1, data: req.body })
@@ -211,7 +223,7 @@ module.exports.getAllDeveloper = function (req, res) {
     })
 }
 module.exports.getAllTester = function (req, res) {
-    UserModel.find({ role: "6228eff112209b8603f2d884", projectAssigned: false }, function (err, testers) {
+    UserModel.find({ role: "6228eff112209b8603f2d884", projectAssigned: false ,isActive:true}, function (err, testers) {
         if (err) {
 
             res.json({ msg: "Something Wrong", status: -1, data: req.body })
@@ -221,8 +233,7 @@ module.exports.getAllTester = function (req, res) {
             res.json({ msg: "Data Retraive", status: 200, data: testers })
         }
     })
-}
-
+}  
 module.exports.getUserbyRole = function (req, res) {
     let role = req.params.role
     //console.log(role);

@@ -44,6 +44,30 @@ module.exports.deleteTaskUser = function(req,res){
         }
     })
 }
+module.exports.getTaskbyDevelop = function (req, res) {
+    let userId = req.body.userId
+    let statusId = req.body.statusId
+    if (statusId == "") {
+        TaskUserModel.find({ projectId: userId }).populate("statusId").populate("priorityId").populate("moduleId").populate("projectId").exec(function (err, tasks) {
+            if (err) {
+                res.json({ msg: "Something Wrong", status: -1, data: req.body })
+            }
+            else {
+                res.json({ msg: "Data Retraive", status: 200, data: tasks })
+            }
+        })
+    }
+    else{
+        TaskModel.find({ projectId: projectId,statusId:statusId }).populate("statusId").populate("priorityId").populate("moduleId").populate("projectId").exec(function (err, tasks) {
+            if (err) {
+                res.json({ msg: "Something Wrong", status: -1, data: req.body })
+            }
+            else {
+                res.json({ msg: "Data Retraive", status: 200, data: tasks })
+            }
+        })
+    }
+}
 //update
 /*module.exports.updateprojectTeam = function(req,res){
     let projectTeamId = req.body.projectTeamId

@@ -1,4 +1,5 @@
 const ProjectTeamModel = require("../Model/projectTeam-model")
+const UserModel = require("../Model/user-model")
 //add data to table
 module.exports.addProjectTeamMember = function (req, res) {
     const projectTeamMember = req.body.projectTeamMember
@@ -19,8 +20,16 @@ module.exports.addProjectTeamMember = function (req, res) {
             res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }
         else {
-            // console.log(success);
-            res.json({ msg: "Project Member Added", status: 200, data: success })
+            UserModel.updateOne({_id:projectTeamMember},{projectAssigned:true},function(err,data){
+                if (err) {
+                    // console.log(err);
+                    res.json({ msg: "Something Wrong", status: -1, data: req.body })
+                }
+                else{
+                    res.json({ msg: "Project Member Added", status: 200, data: success })
+                } 
+            })
+           
         }
     })
 }
