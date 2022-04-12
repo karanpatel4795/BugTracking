@@ -2,37 +2,40 @@ const mongoose = require("mongoose")
 
 
 let TaskSchema = new mongoose.Schema({
-    
-        taskName:{
-            type:String,
-            required:true
-        },
-        description:{
-            type:String
-        },
-        totalTime:{
-            type:String
-        },
-        startDate:{
-            type:String
-        },
-        priorityId : {
-                type:mongoose.Schema.Types.ObjectId,
-                ref:"priority"
-        },
-        projectId : {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"project"
+
+    taskName: {
+        type: String,
+        required: true
     },
-        moduleId : {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"module"
-        },
-        statusId : {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"status"
-}
+    description: {
+        type: String
+    },
+    totalTime: {
+        type: String
+    },
+    startDate: {
+        type: String
+    },
+    priorityId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "priority"
+    },
+    projectId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "project"
+    },
+    moduleId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "module"
+    },
+    statusId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "status"
+    },
+    assigned:{
+        type:Boolean
+    }
 })
 
-const TaskModel = mongoose.model("task",TaskSchema)
+const TaskModel = mongoose.model("task", TaskSchema)
 module.exports = TaskModel

@@ -65,9 +65,10 @@ module.exports.updateProject = function (req, res) {
     let description = req.body.description
     let projectManagerID = req.body.projectManagerID
     let estimatedHours = req.body.estimatedHours
+    let technology=req.body.projectTechnology
     // let statusId = req.body.statusId
 
-    ProjectModel.updateOne({ _id: projectId }, { projectTitle: projectTitle, description: description, projectManagerID: projectManagerID, estimatedHours: estimatedHours }, function (err, data) {
+    ProjectModel.updateOne({ _id: projectId }, { projectTitle: projectTitle,technology:technology, description: description, projectManagerID: projectManagerID, estimatedHours: estimatedHours }, function (err, data) {
         if (err) {
             res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }

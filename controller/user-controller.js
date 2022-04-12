@@ -25,8 +25,8 @@ module.exports.addUser = function (req, res) {
         gender: gender,
         contactNumber: contactNumber,
         isActive: isActive,
-        projectAssigned:projectAssigned,
-        activeProject:activeProject
+        projectAssigned: projectAssigned,
+        activeProject: activeProject
     })
 
     user.save(function (err, data) {
@@ -52,7 +52,7 @@ module.exports.getAllUser = function (req, res) {
 }
 module.exports.usersforProjectManager = function (req, res) {
     UserModel.find(
-        {role: {$nin: ["6228efe612209b8603f2d880", "6228f0b812209b8603f2d88c"]}}
+        { role: { $nin: ["6228efe612209b8603f2d880", "6228f0b812209b8603f2d88c"] } }
 
     ).populate("role").exec(function (err, data) {
         if (err) {
@@ -176,10 +176,9 @@ module.exports.changePassword = function (req, res) {
     let nps = req.body.nps
     let cnps = req.body.cnps
     let isCorrect = false
-    console.log("HELLO");
-    console.log(emailParam);
+    //console.log(emailParam);
     UserModel.findOne({ email: emailParam }, function (err, data) {
-
+    //console.log(data);
         let ans = bcrypt.compareSync(cps, data.password)
         if (ans == true) {
             isCorrect = true
@@ -189,7 +188,7 @@ module.exports.changePassword = function (req, res) {
         } else {
             if (nps == cnps) {
                 let encPassword = bcrypt.hashSync(nps, 10)
-                UserModel.updateOne({ email: userId }, { password: encPassword }, function (err, data) {
+                UserModel.updateOne({ email: emailParam }, { password: encPassword }, function (err, data) {
                     res.json({ msg: "Password Changed!", status: 200, data: data })
                 })
             }
@@ -200,7 +199,7 @@ module.exports.changePassword = function (req, res) {
     })
 }
 module.exports.getAllManagers = function (req, res) {
-    UserModel.find({ role: "6228f0b812209b8603f2d88c",projectAssigned: false ,isActive:true }, function (err, managers) {
+    UserModel.find({ role: "6228f0b812209b8603f2d88c", projectAssigned: false, isActive: true }, function (err, managers) {
         if (err) {
             res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }
@@ -211,7 +210,7 @@ module.exports.getAllManagers = function (req, res) {
     })
 }
 module.exports.getAllDeveloper = function (req, res) {
-    UserModel.find({ role: "6228efec12209b8603f2d882", projectAssigned: false ,isActive:true}, function (err, developers) {
+    UserModel.find({ role: "6228efec12209b8603f2d882", projectAssigned: false, isActive: true }, function (err, developers) {
         if (err) {
 
             res.json({ msg: "Something Wrong", status: -1, data: req.body })
@@ -223,7 +222,7 @@ module.exports.getAllDeveloper = function (req, res) {
     })
 }
 module.exports.getAllTester = function (req, res) {
-    UserModel.find({ role: "6228eff112209b8603f2d884", projectAssigned: false ,isActive:true}, function (err, testers) {
+    UserModel.find({ role: "6228eff112209b8603f2d884", projectAssigned: false, isActive: true }, function (err, testers) {
         if (err) {
 
             res.json({ msg: "Something Wrong", status: -1, data: req.body })
@@ -233,11 +232,11 @@ module.exports.getAllTester = function (req, res) {
             res.json({ msg: "Data Retraive", status: 200, data: testers })
         }
     })
-}  
+}
 module.exports.getUserbyRole = function (req, res) {
     let role = req.params.role
     //console.log(role);
-    UserModel.find({ role:role}, function (err, testers) {
+    UserModel.find({ role: role }, function (err, testers) {
         if (err) {
             res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }
@@ -247,7 +246,37 @@ module.exports.getUserbyRole = function (req, res) {
     })
 }
 module.exports.getAllDevs = function (req, res) {
-    UserModel.find({ role: "6228efec12209b8603f2d882",isActive:true }, function (err, developers) {
+    UserModel.find({ role: "6228efec12209b8603f2d882", isActive: true }, function (err, developers) {
+        if (err) {
+
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+
+            res.json({ msg: "Data Retraive", status: 200, data: developers })
+        }
+    })
+}
+
+module.exports.getuserName = function (req, res) {
+    let userId = req.params.userId
+    //console.log(userId);
+    UserModel.find({ _id: userId }, function (err, developers) {
+        if (err) {
+
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+
+            res.json({ msg: "Data Retraive", status: 200, data: developers })
+        }
+    })
+}
+
+module.exports.getUsersById = function (req, res) {
+    let userId = req.params.userId
+    //console.log(userId);
+    UserModel.find({ email: userId }, function (err, developers) {
         if (err) {
 
             res.json({ msg: "Something Wrong", status: -1, data: req.body })

@@ -12,6 +12,7 @@ module.exports.addTask = function (req, res) {
     let projectId = req.body.projectId
     let statusId = "622b5606f4370ecb2982e488"
     let priorityId = req.body.priorityId
+    let assigned = false
 
     let task = new TaskModel({
         taskName: taskName,
@@ -21,7 +22,8 @@ module.exports.addTask = function (req, res) {
         projectId: projectId,
         moduleId: moduleId,
         statusId: statusId,
-        priorityId: priorityId
+        priorityId: priorityId,
+        assigned: assigned
     })
 
     //  console.log(task);
@@ -92,18 +94,20 @@ module.exports.getTaskById = function (req, res) {
 module.exports.getTaskbyProject = function (req, res) {
     let projectId = req.body.projectId
     let statusId = req.body.statusId
+    //console.log(projectId);
     if (statusId == "") {
         TaskModel.find({ projectId: projectId }).populate("statusId").populate("priorityId").populate("moduleId").populate("projectId").exec(function (err, tasks) {
             if (err) {
                 res.json({ msg: "Something Wrong", status: -1, data: req.body })
             }
             else {
+                console.log(tasks);
                 res.json({ msg: "Data Retraive", status: 200, data: tasks })
             }
         })
     }
-    else{
-        TaskModel.find({ projectId: projectId,statusId:statusId }).populate("statusId").populate("priorityId").populate("moduleId").populate("projectId").exec(function (err, tasks) {
+    else {
+        TaskModel.find({ projectId: projectId, statusId: statusId }).populate("statusId").populate("priorityId").populate("moduleId").populate("projectId").exec(function (err, tasks) {
             if (err) {
                 res.json({ msg: "Something Wrong", status: -1, data: req.body })
             }
@@ -112,4 +116,42 @@ module.exports.getTaskbyProject = function (req, res) {
             }
         })
     }
+}
+
+module.exports.getTask = function (req, res) {
+    let projectId = req.params.projectId
+    //console.log(projectId);
+    TaskModel.find({ projectId: projectId, assigned: false }, function (err, tasks) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+            //console.log(tasks);
+            res.json({ msg: "Data Retraive", status: 200, data: tasks })
+        }
+    })
+}
+
+module.exports.getTaskbyModule = function (req, res) {
+    let moduleId = req.params.moduleId
+    TaskModel.find({ moduleId: moduleId}).populate("statusId").populate("priorityId").populate("moduleId").populate("projectId").exec(function (err, tasks) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+            res.json({ msg: "Data Retraive", status: 200, data: tasks })
+        }
+    })
+}
+
+module.exports.getTaskbyStatus = function (req, res) {
+    let statusId = req.params.statusId
+    TaskModel.find({ statusId: statusId}).populate("statusId").populate("priorityId").populate("moduleId").populate("projectId").exec(function (err, tasks) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+            res.json({ msg: "Data Retraive", status: 200, data: tasks })
+        }
+    })
 }

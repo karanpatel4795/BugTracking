@@ -1,3 +1,4 @@
+const { assign } = require("nodemailer/lib/shared")
 const ModuleModel = require("../model/module-model")
 
 
@@ -11,6 +12,7 @@ module.exports.addModule = function (req, res) {
     let priorityId = req.body.priorityId
     let projectId = req.body.projectId
     let statusId = "622b5606f4370ecb2982e488"
+    let assigned = false
 
     let module = new ModuleModel({
         moduleName: moduleName,
@@ -19,7 +21,8 @@ module.exports.addModule = function (req, res) {
         startDate: startDate,
         priorityId: priorityId,
         projectId: projectId,
-        statusId: statusId
+        statusId: statusId,
+        assigned: assigned
     })
 
     module.save(function (err, data) {
@@ -65,9 +68,9 @@ module.exports.updateModule = function (req, res) {
     let moduleId = req.body.moduleId //postman -> userid 
     let moduleName = req.body.moduleName
     let description = req.body.description
-    let estimatedTime =  req.body.estimatedTime
-    let priorityId= req.body.priorityId
-    ModuleModel.updateOne({ _id: moduleId }, { moduleName: moduleName, description: description, estimatedTime: estimatedTime, priorityId: priorityId}, function (err, data) {
+    let estimatedTime = req.body.estimatedTime
+    let priorityId = req.body.priorityId
+    ModuleModel.updateOne({ _id: moduleId }, { moduleName: moduleName, description: description, estimatedTime: estimatedTime, priorityId: priorityId }, function (err, data) {
         if (err) {
             res.json({ msg: "Somthing went wrong", data: err, status: -1 })
         } else {
@@ -89,7 +92,6 @@ module.exports.getModuleById = function (req, res) {
 
 module.exports.getModulebyproject = function (req, res) {
     let projectId = req.params.project
-    console.log(projectId)
     ModuleModel.find({ projectId: projectId }).populate("projectId").exec(function (err, data) {
         if (err) {
             res.json({ msg: "Something Wrong", status: -1, data: err })
@@ -100,15 +102,28 @@ module.exports.getModulebyproject = function (req, res) {
     })
 }
 
-module.exports.getAllModulesForProjectManager = function (req, res) {
-    let projectManagerIDParam = req.params.projectManagerId
-    //console.log(projectManagerIDParam)
-    ModuleModel.find({ projectId: projectManagerIDParam }).populate("projectId").exec(function (err, data) {
+module.exports.getModule = function (req, res) {
+    let projectId = req.params.projectId
+    //console.log(projectId);
+    ModuleModel.find({ projectId: projectId, assigned: false }).populate("projectId").populate("statusId").populate("priorityId").exec(function (err, tasks) {
         if (err) {
-            res.json({ msg: "Something Wrong", status: -1, data: err })
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }
         else {
-            res.json({ msg: "Data Retraive", status: 200, data: data })
+            //console.log(tasks);
+            res.json({ msg: "Data Retraive", status: 200, data: tasks })
+        }
+    })
+}
+
+module.exports.getModulebyStatus = function (req, res) {
+    let statusId = req.params.statusId
+    ModuleModel.find({ statusId: statusId}).populate("statusId").populate("priorityId").populate("projectId").exec(function (err, tasks) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+            res.json({ msg: "Data Retraive", status: 200, data: tasks })
         }
     })
 }

@@ -87,17 +87,15 @@ module.exports.disableUserForProject = function (req, res) {
     })
 }
 
+module.exports.getProjectforDev = function (req, res) {
+    let devIdParam = req.params.devId
 
-//update
-/*module.exports.updateprojectTeam = function(req,res){
-    let projectTeamId = req.body.projectTeamId
-
-    ProjectTeamModel.updateOne({_id:projectTeamId},function(err,data){
-        if(err){
-            res.json({msg:"Something Wrong",status:-1,data:req.body})
+    ProjectTeamModel.find({ projectTeamMember: devIdParam }).populate("projectId").exec(function (err, project) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: err })
         }
-        else{
-            res.json({msg:"Data Updated",status:200,data:data})
+        else {
+            res.json({ msg: "Data Retraive", status: 200, data: project })
         }
     })
-}*/
+}
