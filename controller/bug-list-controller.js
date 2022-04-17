@@ -1,25 +1,17 @@
-const BugModel = require("../model/bug-model")
+const BugListModel = require("../model/bug-list-model")
 
 
 //add [ POST ]
-module.exports.addBug = function (req, res) {
+module.exports.addBugList = function (req, res) {
 
     let bugName = req.body.bugName
     let description = req.body.description
-    let developerId = req.body.developerId
-    let testerId = req.body.testerId
-    let priorityId = req.body.priorityId
-    let taskId= req.body.taskId
-    let statusId = req.body.statusId
+    let risk=req.body.risk
 
-    let bug = new BugModel({
+    let bug = new BugListModel({
         bugName: bugName,
         description: description,
-        developerId: developerId,
-        testerId: testerId,
-        priorityId :priorityId,
-        taskId:taskId,
-        statusId:statusId
+        risk:risk
     })
 
     bug.save(function (err, data) {
@@ -35,7 +27,7 @@ module.exports.addBug = function (req, res) {
 //list
 module.exports.getAllBug = function (req, res) {
 
-    BugModel.find().populate("taskId").populate("priorityId").populate("statusId").exec(function (err, data) {
+    BugListModel.find(function (err, data) {
         if (err) {
             res.json({ msg: "Somthing went wrong", data:err, status: -1 })//-1  [ 302 404 500 ]
         } else {
@@ -48,8 +40,8 @@ module.exports.getAllBug = function (req, res) {
 module.exports.deleteBug = function(req,res){
     //params userid 
     let bugId = req.params.bugId //postman -> userid 
-
-    BugModel.deleteOne({_id:bugId},function (err, data) {
+console.log(bugId);
+    BugListModel.deleteOne({_id:bugId},function (err, data) {
         if (err) {
             res.json({ msg: "Somthing went wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
         } else {
@@ -65,22 +57,23 @@ module.exports.updateBug= function(req,res){
     let bugId = req.body.bugId //postman -> userid 
     let bugName = req.body.bugName
     let description=req.body.description
-    BugModel.updateOne({_id:bugId},{bugName:bugName},{description:description},function (err, data) {
+    let risk=req.body.risk
+    //console.log(bugId);
+    BugListModel.updateOne({_id:bugId},{bugName:bugName,description:description,risk:risk},function (err, data) {
         if (err) {
             res.json({ msg: "Somthing went wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
         } else {
-            res.json({ msg: "bug update...", data: data, status: 200 })//http status code 
+            res.json({ msg: "Bug Updated", data: data, status: 200 })//http status code 
         }
     })
 }
-
-module.exports.getBugforTester = function (req, res) {
-    let testerId = req.params.testerId
-    BugModel.find({testerId:testerId},function (err, data) {
+module.exports.getBugbyId= function (req, res) {
+    let bugId = req.params.bugId    
+    BugListModel.find({_id:bugId},function (err, data) {
         if (err) {
             res.json({ msg: "Somthing went wrong", data:err, status: -1 })//-1  [ 302 404 500 ]
         } else {
-            res.json({ msg: "Data Retraive!", data: data, status: 200 })//http status code 
+            res.json({ msg: "bug ret...", data: data, status: 200 })//http status code 
         }
     })
 }

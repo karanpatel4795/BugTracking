@@ -14,6 +14,7 @@ const taskController = require("./controller/task-controller")
 const bugController = require("./controller/bug-controller")
 const bugStatusController = require("./controller/bug-status-controller")
 const moduleUserController = require("./controller/moduleUser-controller")
+const bugListController = require("./controller/bug-list-controller")
 
 const cors = require("cors")
 const BugStatusModel = require("./model/bug-status-model")
@@ -94,12 +95,14 @@ app.post("/status", statusController.addStatus)
 app.get("/status", statusController.getAllStatus)
 app.delete("/status/:statusId", statusController.deleteStatus)
 app.put("/status", statusController.updateStatus)
+app.get("/getStatusName/:statusId",statusController.getStatusName)
 
 //priority
 app.post("/priority", priorityController.addPriority)
 app.get("/priority", priorityController.getAllPriority)
 app.delete("/priority/:priorityId", priorityController.deletePriority)
 app.put("/priority", priorityController.updatePriority)
+app.get("/getpriorityName/:priorityId",priorityController.getpriorityName)
 
 //project
 app.post("/projects", projectController.addProject)
@@ -121,6 +124,7 @@ app.get("/projectTeams/:project", projectTeamController.getAllProjectMember)
 app.delete("/projectTeams/:projectTeamId", projectTeamController.deleteProjectTeamMember)
 app.get("/disableUserForProject/:user", projectTeamController.disableUserForProject)
 app.get("/getProjectforDev/:devId",projectTeamController.getProjectforDev)
+app.get("/getTesterbyProject/:projectId",projectTeamController.getTesterbyProject)
 
 //module
 app.post("/modules", moduleController.addModule)
@@ -148,6 +152,9 @@ app.post("/getTaskbyProject", taskController.getTaskbyProject)
 app.get("/getTaskbyProject/:projectId", taskController.getTask)
 app.get("/getTaskbyModule/:moduleId", taskController.getTaskbyModule)
 app.get("/getTaskbyStatus/:statusId", taskController.getTaskbyStatus)
+app.get("/getTaskbyTester/:testerId",taskController.getTaskbyTester)
+app.get("/getPendingTaskforTester/:testerId",taskController.getPendingTaskforTester)
+app.post("/noBug",taskController.noBug)
 
 //taskUser
 app.post("/taskusers", taskUserController.addTaskUser)
@@ -155,16 +162,26 @@ app.get("/taskusers", taskUserController.getAllTaskUser)
 app.delete("/taskusers/:taskUser", taskUserController.deleteTaskUser)
 app.post("/getTaskbyDevelop", taskUserController.getTaskbyDevelop)
 app.get("/getPendingTaskforDev/:devId",taskUserController.getPendingTaskforDev)
+app.post("/getTaskbyProjectforDev",taskUserController.getTaskbyProjectforDev)
+app.post("/submitTask",taskUserController.submitTask)
 
 //bug
 app.post("/bugs", bugController.addBug)
 app.get("/bugs", bugController.getAllBug)
 app.delete("/bugs", bugController.deleteBug)
 app.put("/bugs", bugController.updateBug)
+app.get("/getBugforTester/:testerId",bugController.getBugforTester)
 
 //bug status
 app.post("/bugStatus", bugStatusController.addBugStatus)
 app.get("/bugStatus", bugStatusController.getAllBugStatus)
+
+//bug list
+app.post("/addBugs", bugListController.addBugList)
+app.get("/ListBugs", bugListController.getAllBug)
+app.delete("/deleteBugs/:bugId", bugListController.deleteBug)
+app.put("/updatebugs", bugListController.updateBug)
+app.get("/getBugbyId/:bugId",bugListController.getBugbyId)
 
 //server
 app.listen(3000, function () {

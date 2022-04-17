@@ -6,12 +6,16 @@ const taskUserModel = require("../Model/taskUser-model")
 module.exports.addTaskUser = function (req, res) {
     const taskUser = req.body.taskUser
     const taskId = req.body.taskId
+    const projectId = req.body.projectId
+    const moduleId = req.body.moduleId
     const status = "Pending"
 
     let TaskUser = new taskUserModel({
         taskUser: taskUser,
         taskId: taskId,
-        status:status
+        moduleId: moduleId,
+        projectId: projectId,
+        status: status
     })
     TaskUser.save(function (err, success) {
         if (err) {
@@ -51,9 +55,7 @@ module.exports.deleteTaskUser = function (req, res) {
 }
 module.exports.getTaskbyDevelop = function (req, res) {
     let userId = req.body.devId
-    let statusId = req.body.statusId
-    //console.log(userId);
-    TaskUserModel.find({ taskUser: userId }).populate("taskId").populate("taskUser").exec(function (err, tasks) {
+    TaskUserModel.find({ taskUser: userId }).populate("taskId").populate("taskUser").populate("projectId").populate("moduleId").exec(function (err, tasks) {
         if (err) {
             res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }
@@ -65,13 +67,58 @@ module.exports.getTaskbyDevelop = function (req, res) {
 }
 module.exports.getPendingTaskforDev = function (req, res) {
     let devId = req.params.devId
-    TaskUserModel.find({ taskUser: devId,status:"Pending" }).populate("taskId").exec(function (err, tasks) {
+    TaskUserModel.find({ taskUser: devId, status: "Pending" }).populate("taskId").populate("projectId").populate("moduleId").exec(function (err, tasks) {
         if (err) {
             res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }
         else {
             //console.log(tasks);
             res.json({ msg: "Data Retraive", status: 200, data: tasks })
+        }
+    })
+}
+
+module.exports.getTaskbyProjectforDev = function (req, res) {
+    let devId = req.body.devId
+    let projectId = req.body.projectId
+    //console.log(devId);
+    //console.log(projectId);
+    TaskUserModel.find({ taskUser: devId, projectId: projectId,status:"Pending" }).populate("taskId").populate("projectId").populate("moduleId").exec(function (err, tasks) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+            //console.log(tasks);
+            res.json({ msg: "Data Retraive", status: 200, data: tasks })
+        }
+    })
+}
+
+module.exports.submitTask = function (req, res) {
+    let taskId = req.body.taskId
+    // let projectId = req.body.projectId
+    // let moduleId = req.body.moduleId
+    let testerId = req.body.testerId
+    let time = req.body.time
+    
+    TaskUserModel.find({ taskUser: taskId, taskId: taskId }, function (err, tasks) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: req.body })
+        }
+        else {
+            TaskUserModel.updateOne({ taskId: taskId }, { status: "Completed" }, function (err, success) {
+                if (err) {
+                    res.json({ msg: "Something Wrong!", status: -1, data: err })
+                }
+                else {
+                    TaskModel.updateOne({ _id: taskId }, { testerId:testerId,statusId:"622b55f8f4370ecb2982e486",completionTime:time }, function (err, success) {
+                        if (err) {
+                            res.json({ msg: "Something Wrong!", status: -1, data: err })
+                        }
+                    })
+                    res.json({ msg: "Task Completed", status: 200, data: tasks })
+                }
+            })
         }
     })
 }

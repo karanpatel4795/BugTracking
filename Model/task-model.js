@@ -34,6 +34,17 @@ let TaskSchema = new mongoose.Schema({
     },
     assigned:{
         type:Boolean
+    },
+    testerId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user"
+    },
+    completionTime:{
+        type:String
+    },
+    bugStatus:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "bugStatus"
     }
 })
 

@@ -9,6 +9,14 @@ let TaskUserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
     },
+    moduleId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "module"
+    },
+    projectId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "project"
+    },
     status: {
         type: String
     }

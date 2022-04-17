@@ -99,3 +99,16 @@ module.exports.getProjectforDev = function (req, res) {
         }
     })
 }
+
+module.exports.getTesterbyProject = function (req, res) {
+    let projectId = req.params.projectId
+
+    ProjectTeamModel.find({ projectId: projectId,role:"6228eff112209b8603f2d884" }).populate("projectTeamMember").exec(function (err, project) {
+        if (err) {
+            res.json({ msg: "Something Wrong", status: -1, data: err })
+        }
+        else {
+            res.json({ msg: "Data Retraive", status: 200, data: project })
+        }
+    })
+}

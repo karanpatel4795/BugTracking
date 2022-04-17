@@ -58,3 +58,14 @@ module.exports.updateStatus = function(req,res){
         }
     })
 }
+module.exports.getStatusName = function(req,res){
+    let statusId=req.params.statusId
+    StatusModel.find({_id:statusId},function(err,roles){
+        if(err){
+            res.json({msg:"Something Wrong",status:-1,data:req.body})
+        }
+        else{
+            res.json({msg:"Data Retraive",status:200,data:roles})
+        }
+    })
+}
