@@ -1,6 +1,5 @@
 const TaskModel = require("../model/task-model")
 const TaskUserModel = require("../Model/taskUser-model")
-const taskUserModel = require("../Model/taskUser-model")
 
 //add data to table
 module.exports.addTaskUser = function (req, res) {
@@ -10,7 +9,7 @@ module.exports.addTaskUser = function (req, res) {
     const moduleId = req.body.moduleId
     const status = "Pending"
 
-    let TaskUser = new taskUserModel({
+    let TaskUser = new TaskUserModel({
         taskUser: taskUser,
         taskId: taskId,
         moduleId: moduleId,
@@ -100,6 +99,7 @@ module.exports.submitTask = function (req, res) {
     // let moduleId = req.body.moduleId
     let testerId = req.body.testerId
     let time = req.body.time
+    let developerId = req.body.developerId
     
     TaskUserModel.find({ taskUser: taskId, taskId: taskId }, function (err, tasks) {
         if (err) {
@@ -111,7 +111,7 @@ module.exports.submitTask = function (req, res) {
                     res.json({ msg: "Something Wrong!", status: -1, data: err })
                 }
                 else {
-                    TaskModel.updateOne({ _id: taskId }, { testerId:testerId,statusId:"622b55f8f4370ecb2982e486",completionTime:time }, function (err, success) {
+                    TaskModel.updateOne({ _id: taskId }, { developerId:developerId,testerId:testerId,statusId:"622b55f8f4370ecb2982e486",completionTime:time }, function (err, success) {
                         if (err) {
                             res.json({ msg: "Something Wrong!", status: -1, data: err })
                         }

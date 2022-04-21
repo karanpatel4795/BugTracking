@@ -4,8 +4,8 @@ const mongoose = require("mongoose")
 let BugSchema = new mongoose.Schema({
     
         bugName:{
-            type:String,
-            required:true
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"bugList"
         },
         description:{
             type:String

@@ -82,7 +82,7 @@ module.exports.updateTask = function (req, res) {
 }
 module.exports.getTaskById = function (req, res) {
     let taskId = req.params.taskId
-    TaskModel.findOne({ _id: taskId }).populate("moduleId").populate("priorityId").populate("projectId").populate("testerId").exec(function (err, data) {
+    TaskModel.findOne({ _id: taskId }).populate("moduleId").populate("priorityId").populate("projectId").populate("developerId").exec(function (err, data) {
         if (err) {
             res.json({ msg: "Something Wrong", status: -1, data: err })
         }
@@ -185,7 +185,7 @@ module.exports.getPendingTaskforTester = function (req, res) {
 module.exports.noBug = function (req, res) {
     let taskId = req.body.taskId
     let testerId = req.body.testerId
-    console.log(taskId);
+   // console.log(taskId);
     TaskModel.find({ testerId: testerId, _id: taskId }, function (err, tasks) {
         if (err) {
             res.json({ msg: "Something Wrong", status: -1, data: req.body })

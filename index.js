@@ -95,7 +95,7 @@ app.post("/status", statusController.addStatus)
 app.get("/status", statusController.getAllStatus)
 app.delete("/status/:statusId", statusController.deleteStatus)
 app.put("/status", statusController.updateStatus)
-app.get("/getStatusName/:statusId",statusController.getStatusName)
+app.get("/getStatusNameforTester/:statusId",bugStatusController.getStatusName)
 
 //priority
 app.post("/priority", priorityController.addPriority)
@@ -171,10 +171,12 @@ app.get("/bugs", bugController.getAllBug)
 app.delete("/bugs", bugController.deleteBug)
 app.put("/bugs", bugController.updateBug)
 app.get("/getBugforTester/:testerId",bugController.getBugforTester)
+app.get("/getbugTaskforDev/:devId",bugController.getbugTaskforDev)
 
 //bug status
 app.post("/bugStatus", bugStatusController.addBugStatus)
 app.get("/bugStatus", bugStatusController.getAllBugStatus)
+app.get("/getStatusName/:statusId",bugStatusController.getStatusName)
 
 //bug list
 app.post("/addBugs", bugListController.addBugList)

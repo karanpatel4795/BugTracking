@@ -14,7 +14,7 @@ module.exports.addBugStatus = function (req, res) {
         if (err) {
             res.json({ msg: "Something Wrong", data: err, status: -1 })
         } else {
-            res.json({ msg: "Status added", data: data, status: 200 }) 
+            res.json({ msg: "Status added", data: data, status: 200 })
         }
     })
 
@@ -25,7 +25,19 @@ module.exports.getAllBugStatus = function (req, res) {
 
     BugStatusModel.find(function (err, data) {
         if (err) {
-            res.json({ msg: "Somthing went wrong", data:err, status: -1 })//-1  [ 302 404 500 ]
+            res.json({ msg: "Somthing went wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
+        } else {
+            res.json({ msg: "Status retraive", data: data, status: 200 })//http status code 
+        }
+    })
+}
+
+module.exports.getStatusName = function (req, res) {
+    let statusId = req.params.statusId
+    //console.log(statusId);
+    BugStatusModel.find({_id:statusId},function (err, data) {
+        if (err) {
+            res.json({ msg: "Somthing went wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
         } else {
             res.json({ msg: "Status retraive", data: data, status: 200 })//http status code 
         }
