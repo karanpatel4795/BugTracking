@@ -155,6 +155,7 @@ app.get("/getTaskbyStatus/:statusId", taskController.getTaskbyStatus)
 app.get("/getTaskbyTester/:testerId",taskController.getTaskbyTester)
 app.get("/getPendingTaskforTester/:testerId",taskController.getPendingTaskforTester)
 app.post("/noBug",taskController.noBug)
+app.get("/getfixedBugs",taskController.getfixedBugs)
 
 //taskUser
 app.post("/taskusers", taskUserController.addTaskUser)
@@ -172,6 +173,7 @@ app.delete("/bugs", bugController.deleteBug)
 app.put("/bugs", bugController.updateBug)
 app.get("/getBugforTester/:testerId",bugController.getBugforTester)
 app.get("/getbugTaskforDev/:devId",bugController.getbugTaskforDev)
+
 
 //bug status
 app.post("/bugStatus", bugStatusController.addBugStatus)

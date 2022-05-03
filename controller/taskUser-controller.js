@@ -101,7 +101,7 @@ module.exports.submitTask = function (req, res) {
     let time = req.body.time
     let developerId = req.body.developerId
     
-    TaskUserModel.find({ taskUser: taskId, taskId: taskId }, function (err, tasks) {
+    TaskUserModel.find({ taskUser: developerId, taskId: taskId }, function (err, tasks) {
         if (err) {
             res.json({ msg: "Something Wrong", status: -1, data: req.body })
         }
@@ -115,8 +115,10 @@ module.exports.submitTask = function (req, res) {
                         if (err) {
                             res.json({ msg: "Something Wrong!", status: -1, data: err })
                         }
+                        else{
+                            res.json({ msg: "Task Completed", status: 200, data: tasks })
+                        }
                     })
-                    res.json({ msg: "Task Completed", status: 200, data: tasks })
                 }
             })
         }

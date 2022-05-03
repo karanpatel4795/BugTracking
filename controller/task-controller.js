@@ -202,3 +202,12 @@ module.exports.noBug = function (req, res) {
         }
     })
 }
+module.exports.getfixedBugs = function (req, res) {
+    TaskModel.find({ bugStatus: "625030ca592b3cd09e3a96de" },function (err, data) {
+        if (err) {
+            res.json({ msg: "Somthing went wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
+        } else {
+            res.json({ msg: "Data Retraive!", data: data, status: 200 })//http status code 
+        }
+    })
+}

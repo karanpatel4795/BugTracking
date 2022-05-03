@@ -9,12 +9,14 @@ module.exports.addBug = function (req, res) {
     let taskId = req.body.taskId
     let developerId = req.body.developerId
     let testerId = req.body.testerId
+    let statusId = "625030ca592b3cd09e3a96df"
 
     let bug = new BugModel({
         bugName: bugName,
         testerId: testerId,
         taskId: taskId,
-        developerId: developerId
+        developerId: developerId,
+        statusId:statusId
     })
 
     bug.save(function (err, data) {
@@ -42,7 +44,7 @@ module.exports.addBug = function (req, res) {
 //list
 module.exports.getAllBug = function (req, res) {
 
-    BugModel.find().populate("taskId").populate("priorityId").populate("statusId").exec(function (err, data) {
+    BugModel.find().populate("bugName").populate("developerId").populate("testerId").populate("taskId").populate("priorityId").populate("statusId").exec(function (err, data) {
         if (err) {
             res.json({ msg: "Somthing went wrong", data: err, status: -1 })//-1  [ 302 404 500 ]
         } else {
@@ -102,3 +104,4 @@ module.exports.getbugTaskforDev = function (req, res) {
         }
     })
 }
+
